@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>PS5 File Manager</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+#header{background:#111;padding:12px 16px;border-bottom:1px solid #333;display:flex;align-items:center;gap:10px}
+#header h1{font-size:16px;color:#4a90e2;flex:1}
+#path{font-size:12px;color:#aaa;background:#1a1a1a;padding:6px 10px;border-radius:4px;flex:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#btn-up{background:#1a1a1a;border:1px solid #333;color:#fff;padding:6px 12px;border-radius:4px;font-size:12px}
+#actions{display:flex;gap:8px;padding:10px 16px;background:#0a0a0a;border-bottom:1px solid #222;overflow-x:auto}
+#actions button{background:#1a1a1a;border:1px solid #333;color:#fff;padding:8px 14px;border-radius:4px;font-size:12px;white-space:nowrap}
+#actions button:active{background:#333}
+#actions button.primary{border-color:#4a90e2;color:#4a90e2}
+#filelist{flex:1;overflow-y:auto;padding:8px 0}
+.file-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #1a1a1a;cursor:pointer}
+.file-item:active{background:#1a1a1a}
+.file-icon{width:36px;height:36px;margin-right:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.file-info{flex:1}
+.file-name{font-size:14px;color:#fff;word-break:break-all}
+.file-meta{font-size:11px;color:#888;margin-top:2px}
+.file-actions{display:flex;gap:8px}
+.file-actions button{background:transparent;border:1px solid #444;color:#ccc;padding:4px 10px;border-radius:3px;font-size:11px}
+.file-actions button:active{background:#333}
+.folder .file-icon{color:#4a90e2}
+.file .file-icon{color:#aaa}
+#status{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #333;padding:10px 16px;font-size:12px;color:#888;z-index:100}
+#overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:200}
+.dialog{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:20px;width:280px;max-width:90%}
+.dialog h3{margin-bottom:12px;font-size:14px;color:#fff}
+.dialog input{width:100%;background:#000;border:1px solid #444;color:#fff;padding:10px;border-radius:4px;margin-bottom:12px;font-size:13px}
+.dialog .btns{display:flex;gap:8px;justify-content:flex-end}
+.dialog button{background:#333;border:none;color:#fff;padding:8px 16px;border-radius:4px;font-size:12px}
+.dialog button.primary{background:#4a90e2}
+#empty{text-align:center;padding:40px;color:#666;font-size:14px}
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>PS5 Files</h1>
+  <div id="path">/</div>
+  <button id="btn-up" onclick="goUp()">Up</button>
+</div>
+<div id="actions">
+  <button class="primary" onclick="refresh()">Refresh</button>
+  <button onclick="showMkdir()">New Folder</button>
+  <button onclick="document.getElementById('upfile').click()">Upload</button>
+  <input type="file" id="upfile" style="display:none" onchange="uploadFile(this)">
+</div>
+<div id="filelist"></div>
+<div id="status">Ready</div>
+<div id="overlay" onclick="if(event.target==this)hideDialog()">
+  <div class="dialog" id="dialog">
+    <h3 id="dlg-title">Name</h3>
+    <input type="text" id="dlg-input" placeholder="...">
+    <div class="btns">
+      <button onclick="hideDialog()">Cancel</button>
+      <button class="primary" id="dlg-ok" onclick="dialogAction()">OK</button>
+    </div>
+  </div>
+</div>
+<script>
+let currentPath = '/';
+let ps5ip = '192.168.1.100';
+let dialogCb = null;
+
+function setStatus(s){document.getElementById('status').textContent=s;}
+function getApiBase(){return 'http://'+ps5ip+':9040';}
+
+function init(){
+  try{ if(Android && Android.getIp) ps5ip = Android.getIp(); }catch(e){}
+  refresh();
+}
+function refresh(){
+  setStatus('Loading...');
+  fetch(getApiBase()+'/api/files?path='+encodeURIComponent(currentPath))
+    .then(r=>r.json()).then(data=>{
+      setStatus(data.items?data.items.length+' items':'Empty');
+      render(data.items||[]);
+    }).catch(e=>setStatus('Error: '+e));
+}
+function render(items){
+  document.getElementById('path').textContent=currentPath;
+  const list=document.getElementById('filelist');
+  list.innerHTML='';
+  if(!items.length){list.innerHTML='<div id="empty">Empty folder</div>';return;}
+  items.sort((a,b)=>b.is_dir-a.is_dir||a.name.localeCompare(b.name));
+  items.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='file-item '+(item.is_dir?'folder':'file');
+    div.innerHTML='<div class="file-icon">'+(item.is_dir?'&#128193;':'&#128196;')+'</div>'+
+      '<div class="file-info"><div class="file-name">'+escapeHtml(item.name)+'</div>'+
+      '<div class="file-meta">'+(item.is_dir?'Folder':formatSize(item.size))+'</div></div>'+
+      '<div class="file-actions">'+
+      (item.is_dir?'':'<button onclick="event.stopPropagation();downloadFile(\''+esc(item.name)+'\')">DL</button>')+
+      '<button onclick="event.stopPropagation();renameItem(\''+esc(item.name)+'\')">Ren</button>'+
+      '<button onclick="event.stopPropagation();deleteItem(\''+esc(item.name)+'\')">Del</button></div>';
+    div.onclick=()=>{if(item.is_dir){currentPath+='/'+item.name;refresh();}};
+    list.appendChild(div);
+  });
+}
+function goUp(){
+  if(currentPath=='/')return;
+  const i=currentPath.lastIndexOf('/');
+  currentPath=i>0?currentPath.slice(0,i):'/';
+  refresh();
+}
+function showMkdir(){dialogCb=mkdirAction;document.getElementById('dlg-title').textContent='New Folder';document.getElementById('dlg-input').value='';document.getElementById('overlay').style.display='flex';}
+function mkdirAction(){const name=document.getElementById('dlg-input').value.trim();if(!name)return;fetch(getApiBase()+'/api/files?path='+encodeURIComponent(currentPath+'/'+name)+'&mkdir=1',{method:'POST'}).then(()=>{hideDialog();refresh();});}
+function renameItem(name){dialogCb=()=>renameAction(name);document.getElementById('dlg-title').textContent='Rename';document.getElementById('dlg-input').value=name;document.getElementById('overlay').style.display='flex';}
+function renameAction(oldname){const newname=document.getElementById('dlg-input').value.trim();if(!newname||newname==oldname)return;fetch(getApiBase()+'/api/files/rename?path='+encodeURIComponent(currentPath+'/'+oldname)+'&to='+encodeURIComponent(currentPath+'/'+newname),{method:'POST'}).then(()=>{hideDialog();refresh();});}
+function deleteItem(name){if(!confirm('Delete '+name+'?'))return;fetch(getApiBase()+'/api/files?path='+encodeURIComponent(currentPath+'/'+name),{method:'DELETE'}).then(()=>refresh());}
+function downloadFile(name){window.open(getApiBase()+'/api/files?path='+encodeURIComponent(currentPath+'/'+name)+'&download=1','_blank');}
+function uploadFile(input){const file=input.files[0];if(!file)return;setStatus('Uploading '+file.name+'...');const reader=new FileReader();reader.onload=(e)=>{fetch(getApiBase()+'/api/files?path='+encodeURIComponent(currentPath+'/'+file.name),{method:'POST',body:e.target.result}).then(()=>{setStatus('Uploaded');refresh();});};reader.readAsArrayBuffer(file);}
+function hideDialog(){document.getElementById('overlay').style.display='none';}
+function dialogAction(){if(dialogCb)dialogCb();}
+function esc(s){return s.replace(/'/g,"\\'");}
+function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function formatSize(b){if(b>1e9)return(b/1e9).toFixed(2)+' GB';if(b>1e6)return(b/1e6).toFixed(2)+' MB';if(b>1e3)return(b/1e3).toFixed(2)+' KB';return b+' B';}
+init();
+</script>
+</body>
+</html>

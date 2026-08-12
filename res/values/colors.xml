@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent_cyan">#ff00ffff</color>
+    <color name="accent_green">#ff00ff00</color>
+    <color name="accent_orange">#ffff6600</color>
+    <color name="accent_pink">#ffff1493</color>
+    <color name="accent_ps_blue">#ff0070d1</color>
+    <color name="accent_purple">#ff9b59b6</color>
+    <color name="accent_red">#ffff0000</color>
+    <color name="bg_amoled">#ff000000</color>
+    <color name="bg_card">#ff111111</color>
+    <color name="bg_panel">#ff0a0a0a</color>
+    <color name="colorAccent">#ff0070d1</color>
+    <color name="colorPrimary">#ff000000</color>
+    <color name="colorPrimaryDark">#ff000000</color>
+    <color name="divider">#ff222222</color>
+    <color name="panel_border">#ff1a1a1a</color>
+    <color name="panel_border_accent">#ff0070d1</color>
+    <color name="ripple">#33ffffff</color>
+    <color name="text_hint">#ff666666</color>
+    <color name="text_primary">#ffffffff</color>
+    <color name="text_secondary">#ffaaaaaa</color>
+</resources>

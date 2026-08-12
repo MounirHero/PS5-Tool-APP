@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">About</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="add_payload">Add Payload</string>
+    <string name="add_web_interface">Add Web Interface</string>
+    <string name="app_name">PS5 Tool</string>
+    <string name="available_consoles">Available Consoles</string>
+    <string name="cancel">Cancel</string>
+    <string name="credits">Credits: InsideMatrix</string>
+    <string name="default_port">9021</string>
+    <string name="delete">Delete</string>
+    <string name="file_manager">File Manager</string>
+    <string name="ftp_port">2121</string>
+    <string name="game_tool">Games Manager</string>
+    <string name="ip_label">IP:</string>
+    <string name="name_label">Name:</string>
+    <string name="no_payloads">No payloads saved. Tap + to add.</string>
+    <string name="payload_manager">Payloads Manager</string>
+    <string name="port_label">Port:</string>
+    <string name="remote_play">Remote Play (Chiaki)</string>
+    <string name="rename">Rename</string>
+    <string name="save">Save</string>
+    <string name="saved_web_interfaces">Web Interfaces</string>
+    <string name="scan">SCANSIONA</string>
+    <string name="send_payload">Send Payload</string>
+    <string name="settings">Settings</string>
+    <string name="status_connected" />
+    <string name="status_disconnected">Disconnected</string>
+    <string name="theme">Theme</string>
+    <string name="using_port">Using port :8090</string>
+    <string name="scan_subtitle">scan for a ps5 to start</string>
+</resources>

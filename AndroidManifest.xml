@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.matrix.ps5tool"
+    android:versionCode="36"
+    android:versionName="5.5">
+
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
+    <application
+        android:label="PS5 Tool"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <activity android:name=".ScanActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".PayloadActivity"/>
+        <activity android:name=".FileManagerActivity"/>
+        <activity android:name=".WebInterfacesActivity"/>
+        <activity android:name=".GameToolActivity"/>
+        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".WebViewActivity"/>
+        <activity android:name=".LinuxManagerActivity"/>
+        <activity android:name=".RemotePlayActivity"/>
+        <activity android:name=".ScreenCastActivity"/>
+        <activity android:name=".CastBrowserActivity"/>
+        <activity android:name=".CastOsdActivity" android:launchMode="singleTop"/>
+        <service android:name=".CastService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"/>
+    </application>
+</manifest>

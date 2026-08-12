@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <!-- Top row: power -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/osd_power"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="end"
+            android:padding="13dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_power"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Disconnect"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/osd_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Nothing playing"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"/>
+
+    <TextView
+        android:id="@+id/osd_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textSize="12sp"
+        android:textColor="#888888"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Middle: volume pill (left) + D-pad (right) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/bg_osd_pill"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/osd_vol_up"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_vol_up"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="Volume up"/>
+
+            <ImageButton
+                android:id="@+id/osd_vol_down"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_vol_down"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="Volume down"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:layout_width="236dp"
+            android:layout_height="236dp"
+            android:layout_marginEnd="6dp">
+
+            <View
+                android:layout_width="84dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_osd_pill"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_osd_pill"/>
+
+            <ImageButton
+                android:id="@+id/osd_up"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="6dp"
+                android:padding="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chev_up"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="+30s"/>
+
+            <ImageButton
+                android:id="@+id/osd_left"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="6dp"
+                android:padding="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chev_left"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="-10s"/>
+
+            <ImageButton
+                android:id="@+id/osd_ok"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_ok"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="Play/Pause"/>
+
+            <ImageButton
+                android:id="@+id/osd_right"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="6dp"
+                android:padding="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chev_right"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="+10s"/>
+
+            <ImageButton
+                android:id="@+id/osd_down"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="6dp"
+                android:padding="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chev_down"
+                android:background="@drawable/bg_osd_circle"
+                android:contentDescription="-30s"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Seek bar with times -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/osd_time_cur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--:--"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:textColor="#aaaaaa"/>
+
+        <SeekBar
+            android:id="@+id/osd_seek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="1000"/>
+
+        <TextView
+            android:id="@+id/osd_time_dur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--:--"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:textColor="#aaaaaa"/>
+    </LinearLayout>
+
+    <!-- Transport pill: rewind / play / pause / stop / forward -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_osd_transport"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/osd_rw"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="10dp"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_rewind"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Rewind"/>
+
+        <ImageButton
+            android:id="@+id/osd_play"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="10dp"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_play"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Play"/>
+
+        <ImageButton
+            android:id="@+id/osd_pause"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="10dp"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_pause"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Pause"/>
+
+        <ImageButton
+            android:id="@+id/osd_stop"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="10dp"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_stop"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Stop"/>
+
+        <ImageButton
+            android:id="@+id/osd_ff"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_forward"
+            android:background="@drawable/bg_osd_circle"
+            android:contentDescription="Forward"/>
+    </LinearLayout>
+</LinearLayout>

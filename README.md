@@ -41,7 +41,7 @@ Scan, connect and manage your PS5 over Wi-Fi: payloads, FTP file manager, games,
 ## Requirements
 
 - Android 8.0 (API 26) or newer
-- A jailbroken PS5 with etaHEN / kstuff (or equivalent payload loader listening on port 9021)
+- A jailbroken PS5 with payload loader listening on port 9021
 - Phone and PS5 on the same Wi-Fi network
 
 ## Installation
@@ -67,7 +67,7 @@ A Gradle/Android Studio conversion is planned — contributions welcome.
 
 ## Credits
 
-- **PSPlay 1.5** (InsideMatrixDev) — DLNA media player, based on **ProsperoPlayer** by KINGDKAK
+- **PSPlay 1.5** (InsideMatrixDev/MounirHero) — DLNA media player, based on **ProsperoPlayer** by KINGDKAK
 - **ftpsrv** (ps5-payload-dev) — FTP server for PS5
 - **ps5-linux-loader** (ps5-linux) — Linux boot loader
 - **ShadowMountPlus** (drakmor, based on ShadowMount by VoidWhisper) — game mounting from USB
@@ -77,7 +77,7 @@ All bundled payloads are GPL-3.0 open source — see [THIRD_PARTY_NOTICES.md](TH
 for authors and source links. If you are an author and want your binary removed or relinked,
 please open an issue.
 
-App developed by **InsideMatrix**.
+App developed by **InsideMatrixDev**.
 
 ## Disclaimer
 
